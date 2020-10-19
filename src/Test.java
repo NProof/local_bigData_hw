@@ -148,11 +148,22 @@ public class Test{
 			centers.add(keysArr.get(i));
 		}
 		
+		Set<Point> ps = new HashSet<Point>();
+		for (String center : centers) {
+			ps.add(new Point(observations.get(center)));
+		}
+		for (Point p : ps) {
+			for(double d : p.dhours) {
+				System.out.print(d + ", ");
+			}
+			System.out.println();
+		}
+		
 		double last = Double.POSITIVE_INFINITY;
 		double crr;
 		do {
 			crr = last;
 			System.out.println(crr);
 		} while (crr < last);
-	}    
+	}
 }
