@@ -147,9 +147,9 @@ public class Test{
 		
 		ArrayList<String> keysArr = new ArrayList<String>(observations.keySet());
 		
-		Set<Point> cs = new HashSet<Point>();
+		Set<Point> centers = new HashSet<Point>();
 		for (int i : stream) {
-			cs.add(new Point(observations.get(keysArr.get(i))));
+			centers.add(new Point(observations.get(keysArr.get(i))));
 		}
 		
 		double last;
@@ -158,7 +158,7 @@ public class Test{
 			// Cluster
 			Map<Point, Set<Point> > cluster = new HashMap<Point, Set<Point> >();
 			for (Point p : ps) {
-				Iterator<Point> iter = cs.iterator();
+				Iterator<Point> iter = centers.iterator();
 				assert iter.hasNext();
 				Point minp = iter.next();
 				double mindist = minp.squareDist(p);
@@ -174,9 +174,9 @@ public class Test{
 					cluster.put(minp, new HashSet<Point>());
 				cluster.get(minp).add(p);
 			}
-			// Re-Center
-			cs.clear();
 			
+			// Re-Center
+			Set<Point> newCenters = new HashSet<Point>();
 			Map<Point, Set<Point> > newCluster = new HashMap<Point, Set<Point> >();
 			for (Map.Entry<Point, Set<Point> > entry : cluster.entrySet()) {
 				double [] means = new double [24];
@@ -190,7 +190,7 @@ public class Test{
 					means[i] /= entry.getValue().size();
 				}
 				Point nCenter = new Point(means);
-				cs.add(nCenter);
+				newCenters.add(nCenter);
 				newCluster.put(nCenter, entry.getValue());
 			}
 			// Evaluation variation
@@ -203,6 +203,8 @@ public class Test{
 			last = crr;
 			crr = var;
 			System.out.println(crr);
-		} while (crr < last);
+			if (crr >= last) break;
+			centers = newCenters;
+		} while (true);
 	}
 }
