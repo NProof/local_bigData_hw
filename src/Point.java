@@ -19,4 +19,14 @@ public class Point {
 		}
         return ret; 
     } 
+	
+	double squareDist(Point pOther) {
+		double var = 0;
+		double dif;
+		for(int i=0; i<dhours.length; ++i) {
+			dif = dhours[i] - pOther.dhours[i];
+			var += dif * dif;
+		}
+		return var;
+	}
 }

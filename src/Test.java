@@ -156,6 +156,12 @@ public class Test{
 			System.out.println(p);
 		}
 		
+		for (Point a : ps) {
+			for (Point b : ps) {
+				System.out.println(a.squareDist(b));
+			}
+		}
+		
 		double last = Double.POSITIVE_INFINITY;
 		double crr;
 		do {
