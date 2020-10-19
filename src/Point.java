@@ -11,6 +11,10 @@ public class Point {
 		}
 	}
 	
+	public Point(double [] arr) {
+		dhours = arr;
+	}
+	
 	@Override
     public String toString() {
 		String ret = "[ " + dhours[0];

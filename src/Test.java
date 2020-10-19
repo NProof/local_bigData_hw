@@ -158,10 +158,54 @@ public class Test{
 			ps.add(new Point(observations.get(key)));
 		}
 		
-		double last = Double.POSITIVE_INFINITY;
-		double crr;
+		double last;
+		double crr = Double.POSITIVE_INFINITY;
 		do {
-			crr = last;
+			Map<Point, Set<Point> > cluster = new HashMap<Point, Set<Point> >();
+			for (Point p : ps) {
+				Iterator<Point> iter = cs.iterator();
+				assert iter.hasNext();
+				Point minp = iter.next();
+				double mindist = minp.squareDist(p);
+				while (iter.hasNext()) {
+					Point tmp = iter.next();
+					double dist = tmp.squareDist(p);
+					if (dist < mindist) {
+						minp = tmp;
+						mindist = dist;
+					}
+				}
+				if (!cluster.containsKey(minp))
+					cluster.put(minp, new HashSet<Point>());
+				cluster.get(minp).add(p);
+			}
+			cs.clear();
+			
+			Map<Point, Set<Point> > newCluster = new HashMap<Point, Set<Point> >();
+			for (Map.Entry<Point, Set<Point> > entry : cluster.entrySet()) {
+				// System.out.println("key:" + entry.getKey() + ",value:" + entry.getValue().size());
+				double [] means = new double [24];
+				Arrays.fill(means, 0);
+				for (Point p : entry.getValue()) {
+					for (int i=0; i<24; ++i) {
+						means[i] += p.dhours[i];
+					}
+				}
+				for (int i=0; i<24; ++i) {
+					means[i] /= entry.getValue().size();
+				}
+				Point nCenter = new Point(means);
+				cs.add(nCenter);
+				newCluster.put(nCenter, entry.getValue());
+			}
+			double var = 0;
+			for (Map.Entry<Point, Set<Point> > entry : newCluster.entrySet()) {
+				for (Point p : entry.getValue()) {
+					var += entry.getKey().squareDist(p);
+				}
+			}
+			last = crr;
+			crr = var;
 			System.out.println(crr);
 		} while (crr < last);
 	}
