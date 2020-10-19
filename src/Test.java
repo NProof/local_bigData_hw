@@ -134,33 +134,29 @@ public class Test{
 	}
 	
 	public static void main(String[] args) {
-		Map<String, ArrayList<String> > classifier = data_classify(args[0]);
-		Map<String, ArrayList<Integer> > observations = dataPreprocessing(classifier);
+		Map<String, ArrayList<Integer> > observations = dataPreprocessing(data_classify(args[0]));
 		
 		ArrayList<String> keysArr = new ArrayList<String>(observations.keySet());
-		Set<String> centers = new TreeSet<String>();
 
 		int[] stream = IntStream.generate(()-> (new Random()).nextInt(observations.size()))
 			.distinct()
             .limit(4)
 			.toArray();
-        for(int i : stream) {
-			centers.add(keysArr.get(i));
-		}
-		
+			
 		Set<Point> cs = new HashSet<Point>();
-		for (String center : centers) {
-			cs.add(new Point(observations.get(center)));
+		for (int i : stream) {
+			cs.add(new Point(observations.get(keysArr.get(i))));
 		}
 		
 		Set<Point> ps = new HashSet<Point>();
-		for (String key : keysArr) {
-			ps.add(new Point(observations.get(key)));
+		for (ArrayList<Integer> data : observations.values()) {
+			ps.add(new Point(data));
 		}
 		
 		double last;
 		double crr = Double.POSITIVE_INFINITY;
 		do {
+			// Cluster
 			Map<Point, Set<Point> > cluster = new HashMap<Point, Set<Point> >();
 			for (Point p : ps) {
 				Iterator<Point> iter = cs.iterator();
@@ -179,11 +175,11 @@ public class Test{
 					cluster.put(minp, new HashSet<Point>());
 				cluster.get(minp).add(p);
 			}
+			// Re-Center
 			cs.clear();
 			
 			Map<Point, Set<Point> > newCluster = new HashMap<Point, Set<Point> >();
 			for (Map.Entry<Point, Set<Point> > entry : cluster.entrySet()) {
-				// System.out.println("key:" + entry.getKey() + ",value:" + entry.getValue().size());
 				double [] means = new double [24];
 				Arrays.fill(means, 0);
 				for (Point p : entry.getValue()) {
@@ -198,6 +194,7 @@ public class Test{
 				cs.add(nCenter);
 				newCluster.put(nCenter, entry.getValue());
 			}
+			// Evaluation variation
 			double var = 0;
 			for (Map.Entry<Point, Set<Point> > entry : newCluster.entrySet()) {
 				for (Point p : entry.getValue()) {
