@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 class DateComparator implements Comparator<String> {
 	DateFormat f = new SimpleDateFormat("yyyy/MM/dd");
@@ -123,11 +125,10 @@ public class Test{
 		for (int i = 0; i < odate.size(); ++i) {
 			dataResult.put(odate.get(i), new ArrayList<Integer>(older.subList(i*24, (i+1)*24)));
 		}
-		older.clear();
 		
-		for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
-			System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
-		}
+		// for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
+			// System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
+		// }
 		
 		return dataResult;
 	}
@@ -136,7 +137,18 @@ public class Test{
 		Map<String, ArrayList<String> > classifier = data_classify(args[0]);
 		Map<String, ArrayList<Integer> > observations = dataPreprocessing(classifier);
 		
-		
-		
+		ArrayList<String> keysArr = new ArrayList<String>(observations.keySet());
+		Set<String> centers = new TreeSet<String>();
+
+		int[] stream = IntStream.generate(()-> (new Random()).nextInt(observations.size()))
+			.distinct()
+            .limit(4)
+			.toArray();
+        for(int i : stream) {
+			centers.add(keysArr.get(i));
+		}
+		for(String center : centers) {
+			System.out.println(center);
+		}
 	}    
 }
