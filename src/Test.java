@@ -135,22 +135,22 @@ public class Test{
 	
 	public static void main(String[] args) {
 		Map<String, ArrayList<Integer> > observations = dataPreprocessing(data_classify(args[0]));
-		
-		ArrayList<String> keysArr = new ArrayList<String>(observations.keySet());
 
+		Set<Point> ps = new HashSet<Point>();
+		for (ArrayList<Integer> data : observations.values()) {
+			ps.add(new Point(data));
+		}
+		
 		int[] stream = IntStream.generate(()-> (new Random()).nextInt(observations.size()))
 			.distinct()
             .limit(4)
 			.toArray();
-			
+		
+		ArrayList<String> keysArr = new ArrayList<String>(observations.keySet());
+		
 		Set<Point> cs = new HashSet<Point>();
 		for (int i : stream) {
 			cs.add(new Point(observations.get(keysArr.get(i))));
-		}
-		
-		Set<Point> ps = new HashSet<Point>();
-		for (ArrayList<Integer> data : observations.values()) {
-			ps.add(new Point(data));
 		}
 		
 		double last;
