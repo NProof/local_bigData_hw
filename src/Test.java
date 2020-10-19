@@ -84,15 +84,14 @@ public class Test{
 			}
 		}
 		Iterator<Integer> iter = older.iterator();
-		Integer beforei = -1;
-		Integer tmp = -1;
-		Integer afteri = -1;
+		Integer beforei = null;
+		Integer tmp = null;
+		Integer afteri = null;
 		int beforet = -1;
 		int aftert = -1;
-		if(iter.hasNext()) {
-			beforei = iter.next();
-			beforet = 0;
-		}
+		assert iter.hasNext();
+		beforei = iter.next();
+		beforet = 0;
 		while (iter.hasNext()) {
 			while(iter.hasNext()) {
 				tmp = iter.next();
