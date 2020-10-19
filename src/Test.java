@@ -153,10 +153,7 @@ public class Test{
 			ps.add(new Point(observations.get(center)));
 		}
 		for (Point p : ps) {
-			for(double d : p.dhours) {
-				System.out.print(d + ", ");
-			}
-			System.out.println();
+			System.out.println(p);
 		}
 		
 		double last = Double.POSITIVE_INFINITY;

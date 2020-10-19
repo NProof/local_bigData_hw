@@ -10,4 +10,13 @@ public class Point {
 			dhours[i] = arr.get(i);
 		}
 	}
+	
+	@Override
+    public String toString() {
+		String ret = "[ " + dhours[0];
+		for (int i=1; i<dhours.length; ++i) {
+			ret = ret.concat(" , " + dhours[i]);
+		}
+        return ret; 
+    } 
 }
