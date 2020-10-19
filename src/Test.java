@@ -20,7 +20,7 @@ class DateComparator implements Comparator<String> {
 			throw new IllegalArgumentException(e);
 		}
 	}
-}or
+}
 
 public class Test{
 	private static Map<String, ArrayList<String> > data_classify(String filename) {
@@ -64,6 +64,7 @@ public class Test{
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
