@@ -20,12 +20,12 @@ class DateComparator implements Comparator<String> {
 			throw new IllegalArgumentException(e);
 		}
 	}
-}
+}or
 
 public class Test{
 	private static Map<String, ArrayList<String> > data_classify(String filename) {
 		try {
-			Map<String, ArrayList<String> > observations = new TreeMap<String, ArrayList<String> >(new DateComparator());
+			Map<String, ArrayList<String> > classifier = new TreeMap<String, ArrayList<String> >(new DateComparator());
 			File myObj = new File(filename);
 			Scanner myReader = new Scanner(new FileInputStream(myObj), "utf-8");
 			while (myReader.hasNextLine()) {
@@ -56,11 +56,11 @@ public class Test{
 						String obs = tokenizer.nextToken();
 						tmp.add(obs);
 					}
-					observations.put(date, tmp);
+					classifier.put(date, tmp);
 				}
 			}
 			myReader.close();
-			return observations;
+			return classifier;
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
