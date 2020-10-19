@@ -148,9 +148,14 @@ public class Test{
 			centers.add(keysArr.get(i));
 		}
 		
-		Set<Point> ps = new HashSet<Point>();
+		Set<Point> cs = new HashSet<Point>();
 		for (String center : centers) {
-			ps.add(new Point(observations.get(center)));
+			cs.add(new Point(observations.get(center)));
+		}
+		
+		Set<Point> ps = HashSet<Point>();
+		for (String key : keysArr) {
+			ps.add(new Point(observations.get(key)));
 		}
 		
 		double last = Double.POSITIVE_INFINITY;
