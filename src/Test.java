@@ -153,7 +153,7 @@ public class Test{
 			cs.add(new Point(observations.get(center)));
 		}
 		
-		Set<Point> ps = HashSet<Point>();
+		Set<Point> ps = new HashSet<Point>();
 		for (String key : keysArr) {
 			ps.add(new Point(observations.get(key)));
 		}
