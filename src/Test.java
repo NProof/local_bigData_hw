@@ -125,22 +125,22 @@ public class Test{
 		}
 		// System.out.println(older.size());
 		
-		Map<String, ArrayList<Integer> > fixObservations = new TreeMap<String, ArrayList<Integer> >(new DateComparator());
+		Map<String, ArrayList<Integer> > dataResult = new TreeMap<String, ArrayList<Integer> >(new DateComparator());
 		
 		for (int i = 0; i < odate.size(); ++i) {
-			fixObservations.put(odate.get(i), new ArrayList<Integer>(older.subList(i*24, (i+1)*24)));
+			dataResult.put(odate.get(i), new ArrayList<Integer>(older.subList(i*24, (i+1)*24)));
 		}
 		older.clear();
 		
-		for(Map.Entry<String, ArrayList<Integer> > entry : fixObservations.entrySet()) {
+		for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
 			System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
 		}
 		
-		return fixObservations;
+		return dataResult;
 	}
 	
 	public static void main(String[] args) {
-		Map<String, ArrayList<String> > observations = data_classify(args[0]);
-		Map<String, ArrayList<Integer> > fixObservations = dataPreprocessing(observations);
+		Map<String, ArrayList<String> > classifier = data_classify(args[0]);
+		Map<String, ArrayList<Integer> > observations = dataPreprocessing(classifier);
 	}    
 }
