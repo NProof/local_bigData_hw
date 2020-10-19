@@ -154,7 +154,12 @@ public class Test{
 		
 		double last;
 		double crr = Double.POSITIVE_INFINITY;
+		int maxTime = 30;
 		do {
+			// Centers Printing
+			// for (Point c : centers) {
+				// System.out.println(c);
+			// }
 			// Cluster
 			Map<Point, Set<Point> > cluster = new HashMap<Point, Set<Point> >();
 			for (Point p : ps) {
@@ -205,6 +210,6 @@ public class Test{
 			System.out.println(crr);
 			if (crr >= last) break;
 			centers = newCenters;
-		} while (true);
+		} while (maxTime > 0);
 	}
 }
