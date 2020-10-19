@@ -23,6 +23,50 @@ class DateComparator implements Comparator<String> {
 }
 
 public class Test{
+	private static Map<String, ArrayList<String> > data_classify(String filename) {
+		try {
+			Map<String, ArrayList<String> > observations = new TreeMap<String, ArrayList<String> >(new DateComparator());
+			File myObj = new File(filename);
+			Scanner myReader = new Scanner(new FileInputStream(myObj), "utf-8");
+			while (myReader.hasNextLine()) {
+				String line = myReader.nextLine();
+				StringTokenizer tokenizer = new StringTokenizer(line, ",", true);
+				String date, location, item;
+				assert tokenizer.hasMoreTokens();
+				date = tokenizer.nextToken(); tokenizer.nextToken();
+				assert tokenizer.hasMoreTokens();
+				location = tokenizer.nextToken(); tokenizer.nextToken();
+				assert tokenizer.hasMoreTokens();
+				item = tokenizer.nextToken(); tokenizer.nextToken();
+				ArrayList tmp = new ArrayList<String>();
+				StringBuffer sb = new StringBuffer();
+				if ( location.equals("大里") && item.equals("PM2.5")) {
+					while (tokenizer.hasMoreTokens()) {
+						String token = tokenizer.nextToken();
+						if (token.equals(",")) {
+							sb.append(" ").append(",");
+						} else {
+							sb.append(token).append(",");
+							if (tokenizer.hasMoreTokens())
+								tokenizer.nextToken();
+						}
+					}
+					tokenizer = new StringTokenizer(sb.toString(), ",");
+					while (tokenizer.hasMoreTokens()) {
+						String obs = tokenizer.nextToken();
+						tmp.add(obs);
+					}
+					observations.put(date, tmp);
+				}
+			}
+			myReader.close();
+			return observations;
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	
 	public static Map<String, ArrayList<Integer> > dataPreprocessing(Map<String, ArrayList<String> > observations) {
 		ArrayList<Integer> older = new ArrayList<Integer>();
 		ArrayList<String> odate = new ArrayList<String>();
@@ -88,56 +132,15 @@ public class Test{
 		}
 		older.clear();
 		
-		// for(Map.Entry<String, ArrayList<Integer> > entry : fixObservations.entrySet()) {
-			// System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
-		// }
+		for(Map.Entry<String, ArrayList<Integer> > entry : fixObservations.entrySet()) {
+			System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
+		}
 		
 		return fixObservations;
 	}
 	
 	public static void main(String[] args) {
-		try {
-			Map<String, ArrayList<String> > observations = new TreeMap<String, ArrayList<String> >(new DateComparator());
-			File myObj = new File(args[0]);
-			Scanner myReader = new Scanner(new FileInputStream(myObj), "utf-8");
-			while (myReader.hasNextLine()) {
-				String line = myReader.nextLine();
-				StringTokenizer tokenizer = new StringTokenizer(line, ",", true);
-				String date, location, item;
-				assert tokenizer.hasMoreTokens();
-				date = tokenizer.nextToken(); tokenizer.nextToken();
-				assert tokenizer.hasMoreTokens();
-				location = tokenizer.nextToken(); tokenizer.nextToken();
-				assert tokenizer.hasMoreTokens();
-				item = tokenizer.nextToken(); tokenizer.nextToken();
-				ArrayList tmp = new ArrayList<String>();
-				StringBuffer sb = new StringBuffer();
-				if ( location.equals("大里") && item.equals("PM2.5")) {
-					while (tokenizer.hasMoreTokens()) {
-						String token = tokenizer.nextToken();
-						if (token.equals(",")) {
-							sb.append(" ").append(",");
-						} else {
-							sb.append(token).append(",");
-							if (tokenizer.hasMoreTokens())
-								tokenizer.nextToken();
-						}
-					}
-					tokenizer = new StringTokenizer(sb.toString(), ",");
-					while (tokenizer.hasMoreTokens()) {
-						String obs = tokenizer.nextToken();
-						tmp.add(obs);
-					}
-					observations.put(date, tmp);
-				}
-			}
-			Map<String, ArrayList<Integer> > fixObservations = dataPreprocessing(observations);
-			observations.clear();
-			
-			myReader.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
+		Map<String, ArrayList<String> > observations = data_classify(args[0]);
+		Map<String, ArrayList<Integer> > fixObservations = dataPreprocessing(observations);
 	}    
 }
