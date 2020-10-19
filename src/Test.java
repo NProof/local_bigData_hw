@@ -72,7 +72,6 @@ public class Test{
 		ArrayList<String> odate = new ArrayList<String>();
 		for (Map.Entry<String, ArrayList<String> > entry : observations.entrySet()) {
 			odate.add(entry.getKey());
-			// System.out.println("[" + entry.getKey() + ", " + entry.getValue() + "]");
 			for (String s : entry.getValue()) {
 				try {
 					older.add(Integer.parseInt(s));
@@ -81,7 +80,6 @@ public class Test{
 				}
 			}
 		}
-		// System.out.println(older.size());
 		Iterator<Integer> iter = older.iterator();
 		Integer beforei = -1;
 		Integer tmp = -1;
@@ -101,21 +99,16 @@ public class Test{
 				beforei = tmp;
 				++beforet;
 			}
-			// System.out.println("beforei dir : " + beforei + " beforet : " + beforet + "[ ] : " + older.get(beforet));
 			aftert = beforet + 1;
 			while(iter.hasNext()) {
 				++aftert;
 				afteri = iter.next();
 				if (!Objects.isNull(afteri)) {
-					// System.out.println(" beforet : " + beforet + ", aftert : " + aftert);
-					// System.out.println(" [B] : " + older.get(beforet) + ", [A] : " + older.get(aftert));
-					// System.out.println(" [Bi] : " + beforei + ", [Ai] : " + afteri);
 					int n = aftert - beforet;
 					double gap = (double)( afteri - beforei ) / n;
 					for (int i = 1; i < n; ++i) {
 						++beforet;
 						double val = gap * i + beforei.intValue() + 0.5 ;
-						// System.out.println(older.get(beforet) + " -> " +(int)val);
 						older.set(beforet, (int)val);
 					}
 					++beforet;
@@ -123,7 +116,6 @@ public class Test{
 				}
 			}
 		}
-		// System.out.println(older.size());
 		
 		Map<String, ArrayList<Integer> > dataResult = new TreeMap<String, ArrayList<Integer> >(new DateComparator());
 		
@@ -142,5 +134,8 @@ public class Test{
 	public static void main(String[] args) {
 		Map<String, ArrayList<String> > classifier = data_classify(args[0]);
 		Map<String, ArrayList<Integer> > observations = dataPreprocessing(classifier);
+		
+		
+		
 	}    
 }
