@@ -147,8 +147,12 @@ public class Test{
         for(int i : stream) {
 			centers.add(keysArr.get(i));
 		}
-		for(String center : centers) {
-			System.out.println(center);
-		}
+		
+		double last = Double.POSITIVE_INFINITY;
+		double crr;
+		do {
+			crr = last;
+			System.out.println(crr);
+		} while (crr < last);
 	}    
 }
