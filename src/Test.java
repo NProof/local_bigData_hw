@@ -126,7 +126,7 @@ public class Test{
 		}
 		
 		// for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
-			// System.out.println(" " + entry.getKey() + " -> " + entry.getValue().size() + "]  " + entry.getValue());
+			// System.out.println(" " + entry.getKey() + " -> " + entry.getValue());
 		// }
 		
 		return dataResult;
