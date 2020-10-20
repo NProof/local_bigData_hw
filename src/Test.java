@@ -125,9 +125,14 @@ public class Test{
 			dataResult.put(odate.get(i), new ArrayList<Integer>(older.subList(i*24, (i+1)*24)));
 		}
 		
-		// for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
-			// System.out.println(" " + entry.getKey() + " -> " + entry.getValue());
-		// }
+		/* for(Map.Entry<String, ArrayList<Integer> > entry : dataResult.entrySet()) {
+			System.out.println(" " + entry.getKey() + " -> " + entry.getValue());
+			System.out.print("PM2.5,大里," + entry.getKey());
+			for(Integer i : entry.getValue()) {
+				System.out.print( "," + i);
+			}
+			System.out.println();
+		} */
 		
 		return dataResult;
 	}

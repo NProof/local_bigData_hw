@@ -17,11 +17,11 @@ public class Point {
 	
 	@Override
     public String toString() {
-		String ret = "[ " + dhours[0];
+		String ret = "<" + dhours[0];
 		for (int i=1; i<dhours.length; ++i) {
-			ret = ret.concat(" , " + dhours[i]);
+			ret = ret.concat("," + dhours[i]);
 		}
-        return ret; 
+        return ret+">"; 
     } 
 	
 	double squareDist(Point pOther) {
